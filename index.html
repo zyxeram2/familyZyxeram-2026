@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Cinema 2026</title>
+    <script>
+        // Проверяем авторизацию и перенаправляем
+        (function() {
+            const authToken = localStorage.getItem('authToken');
+            const authTime = localStorage.getItem('authTime');
+            
+            if (authToken && authTime) {
+                const timeDiff = Date.now() - parseInt(authTime);
+                // Сессия действительна 24 часа
+                if (timeDiff < 24 * 60 * 60 * 1000) {
+                    window.location.replace('protected.html');
+                    return;
+                }
+            }
+            
+            // Если не авторизован или сессия истекла, перенаправляем на страницу входа
+            window.location.replace('login.html');
+        })();
+    </script>
+    <noscript>
+        <meta http-equiv="refresh" content="0; url=login.html">
+    </noscript>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif; background: #0a0a0a; color: #fff;">
+        <div style="text-align: center;">
+            <h2>Перенаправление...</h2>
+            <p>Если вы не были перенаправлены автоматически, <a href="login.html" style="color: #d4af37;">нажмите здесь</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

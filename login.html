@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход | Family Cinema 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0f1f 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 10;
+        }
+
+        .login-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #d4af37, #f4e4bc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .password-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #d4af37, #f4e4bc);
+            border: none;
+            border-radius: 10px;
+            color: #0a0a0a;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.5);
+            color: #ff6b6b;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation" id="bgAnimation"></div>
+    
+    <div class="login-container">
+        <h1 class="login-title">Family Cinema</h1>
+        <p class="login-subtitle">Введите пароль для доступа к контенту</p>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label" for="password">Пароль</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="password-input" 
+                    placeholder="Введите пароль..."
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+            
+            <button type="submit" class="login-btn">Войти</button>
+            
+            <div class="loading" id="loading">Проверка...</div>
+            <div class="error-message" id="errorMessage">
+                Неверный пароль. Попробуйте еще раз.
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Пароль для доступа (измените на свой)
+        const CORRECT_PASSWORD = 'family2026';
+        
+        // Создаем анимированный фон
+        function createStars() {
+            const bgAnimation = document.getElementById('bgAnimation');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                bgAnimation.appendChild(star);
+            }
+        }
+
+        // Проверка пароля
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const loading = document.getElementById('loading');
+            const loginBtn = document.querySelector('.login-btn');
+            
+            // Скрываем предыдущую ошибку
+            errorMessage.style.display = 'none';
+            
+            // Показываем загрузку
+            loading.style.display = 'block';
+            loginBtn.disabled = true;
+            
+            // Имитируем проверку (можно убрать для мгновенной проверки)
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            if (password === CORRECT_PASSWORD) {
+                // Сохраняем сессию в localStorage
+                localStorage.setItem('authToken', btoa(Date.now() + ':' + password));
+                localStorage.setItem('authTime', Date.now().toString());
+                
+                // Перенаправляем на защищенную страницу
+                window.location.href = 'protected.html';
+            } else {
+                // Показываем ошибку
+                errorMessage.style.display = 'block';
+                loading.style.display = 'none';
+                loginBtn.disabled = false;
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        });
+
+        // Проверяем, не авторизован ли уже пользователь
+        window.addEventListener('load', function() {
+            const authToken = localStorage.getItem('authToken');
+            const authTime = localStorage.getItem('authTime');
+            
+            if (authToken && authTime) {
+                const timeDiff = Date.now() - parseInt(authTime);
+                // Сессия действительна 24 часа
+                if (timeDiff < 24 * 60 * 60 * 1000) {
+                    window.location.href = 'protected.html';
+                    return;
+                }
+            }
+            
+            createStars();
+            document.getElementById('password').focus();
+        });
+
+        // Обработка Enter в поле пароля
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>

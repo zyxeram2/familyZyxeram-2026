@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Family Cinema 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+    <div class="noise-overlay"></div>
+
+    <!-- Навигация -->
+    <nav class="nav-bar hidden" id="navBar">
+        <button class="nav-icon-btn" id="navHomeBtn" aria-label="В начало">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        </button>
+        <div class="nav-links-wrapper">
+            <div class="nav-links">
+                <button data-target="scene-intro">Кинозал</button>
+                <button data-target="scene-album">Хроника</button>
+                <button data-target="scene-tree">Ёлка</button>
+                <button data-target="scene-fortune">Оракул</button>
+                <button data-target="scene-interview">Интервью</button>
+                <button data-target="scene-gallery">Галерея</button> <!-- NEW -->
+                <button data-target="scene-capsule">Капсула</button>
+            </div>
+        </div>
+        <button class="nav-icon-btn" id="soundToggle" aria-label="Звук">🔇</button>
+    </nav>
+
+    <!-- СЦЕНА 0: Постер -->
+    <section id="scene-start" class="scene active">
+        <div class="hero-content">
+            <div class="hero-label">Семейная премьера</div>
+            <h1 class="hero-title">СЕМЬЯ <span class="year-accent">2026</span></h1>
+            <p class="hero-subtitle">История, которую мы пишем вместе</p>
+            <div class="hero-meta">
+                <div class="meta-item"><span>Режиссер</span><br>Время</div>
+                <div class="meta-divider"></div>
+                <div class="meta-item"><span>В ролях</span><br>Мы все</div>
+            </div>
+            <button class="play-btn" id="startBtn"><span class="play-icon">▶</span> Смотреть фильм</button>
+        </div>
+    </section>
+
+    <!-- СЦЕНА 1: Титры -->
+    <section id="scene-intro" class="scene">
+        <button class="skip-btn" id="skipIntroBtn">Пропустить</button>
+        <div class="credits-viewport">
+            <div id="creditsContainer" class="credits-container"></div>
+        </div>
+    </section>
+
+    <!-- Шторка -->
+    <div id="curtain" class="curtain">
+        <div class="curtain-content">
+            <h2 id="curtainTitle">Chapter 1</h2>
+            <div class="loader-line"></div>
+        </div>
+    </div>
+
+    <!-- СЦЕНА 2: Альбом -->
+    <section id="scene-album" class="scene scroll-scene">
+        <header class="scene-header">
+            <span class="scene-number">Глава I</span>
+            <h2>Хроники Года</h2>
+        </header>
+        <div class="timeline-container" id="albumTimeline">
+            <div class="timeline-line"></div>
+        </div>
+        <button class="ghost-btn next-scene-btn" data-next="scene-tree">Далее: Ёлка воспоминаний ↓</button>
+    </section>
+
+    <!-- СЦЕНА 3: Ёлка -->
+    <section id="scene-tree" class="scene">
+        <header class="scene-header">
+            <span class="scene-number">Глава II</span>
+            <h2>Дерево Секретов</h2>
+        </header>
+        <div class="tree-wrapper">
+            <div class="tree-glow"></div>
+            <div class="tree-graphic">
+                <svg viewBox="0 0 400 600" class="svg-tree">
+                    <defs>
+                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="5" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                    </defs>
+                    <path d="M200,40 L40,500 L360,500 Z" fill="rgba(20, 50, 30, 0.4)" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+                    <path d="M200,40 L80,350 L320,350 Z" fill="rgba(30, 70, 40, 0.4)" />
+                    <path d="M200,40 L120,200 L280,200 Z" fill="rgba(40, 90, 50, 0.4)" />
+                    <path d="M140,150 Q200,220 260,150" fill="none" stroke="rgba(212,175,55,0.3)" stroke-width="2" />
+                    <path d="M100,280 Q200,360 300,280" fill="none" stroke="rgba(212,175,55,0.3)" stroke-width="2" />
+                    <path d="M60,420 Q200,500 340,420" fill="none" stroke="rgba(212,175,55,0.3)" stroke-width="2" />
+                </svg>
+                <div id="ornamentsLayer" class="ornaments-layer"></div>
+            </div>
+        </div>
+        <button class="ghost-btn next-scene-btn" data-next="scene-fortune">Далее: Оракул ↓</button>
+    </section>
+
+    <!-- СЦЕНА 4: Оракул -->
+    <section id="scene-fortune" class="scene">
+        <header class="scene-header">
+            <span class="scene-number">Глава III</span>
+            <h2>Оракул Судьбы</h2>
+        </header>
+        <div class="fortune-interface">
+            <div class="persona-selector-wrapper">
+                <span class="selector-label">Кому гадаем?</span>
+                <select id="fortunePersona" class="glass-select"></select>
+            </div>
+            <div class="cards-grid" id="cardsTable"></div>
+            <div id="predictionResult" class="prediction-modal hidden">
+                <div class="prediction-content">
+                    <div class="star-icon">✨</div>
+                    <h3 id="predTitle"></h3>
+                    <p id="predText"></p>
+                    <button class="outline-btn" id="resetFortuneBtn">Тянуть ещё</button>
+                </div>
+            </div>
+        </div>
+        <button class="ghost-btn next-scene-btn" data-next="scene-interview">Далее: Интервью ↓</button>
+    </section>
+
+    <!-- СЦЕНА 5: Интервью -->
+    <section id="scene-interview" class="scene">
+        <header class="scene-header">
+            <span class="scene-number">Глава IV</span>
+            <h2>Интервью 2025</h2>
+            <p class="scene-desc">Слова, которые останутся в истории</p>
+        </header>
+        <div class="interview-grid" id="interviewGrid"></div>
+        <button class="ghost-btn next-scene-btn" data-next="scene-gallery">Далее: Галерея ↓</button>
+    </section>
+
+    <!-- СЦЕНА 6: Галерея (НОВАЯ) -->
+    <section id="scene-gallery" class="scene full-height-scene">
+        <div class="gallery-bg-glow"></div>
+        <header class="scene-header gallery-header">
+            <span class="scene-number">Глава V</span>
+            <h2>Наша Галерея</h2>
+        </header>
+        
+        <div class="gallery-viewport">
+            <div class="gallery-track" id="galleryTrack">
+                <!-- Слайды генерируются JS -->
+            </div>
+            <div class="gallery-controls">
+                <button class="gallery-nav prev" id="galleryPrev">←</button>
+                <button class="gallery-nav next" id="galleryNext">→</button>
+            </div>
+        </div>
+
+        <button class="ghost-btn next-scene-btn" data-next="scene-capsule" style="margin-top: 20px;">Финал: Капсула ↓</button>
+    </section>
+
+    <!-- СЦЕНА 7: Капсула -->
+    <section id="scene-capsule" class="scene">
+        <header class="scene-header">
+            <span class="scene-number">Финал</span>
+            <h2>Капсула Времени</h2>
+        </header>
+        <div class="capsule-visual">
+            <div class="capsule-glass">
+                
+                <!-- 1. ЗАКРЫТОЕ СОСТОЯНИЕ (Таймер) -->
+                <div id="capsuleLocked" class="capsule-content-locked">
+                    <div class="timer-wrapper">
+                        <div class="timer-unit"><span id="days">00</span><label>Дней</label></div>
+                        <div class="timer-sep">:</div>
+                        <div class="timer-unit"><span id="hours">00</span><label>Часов</label></div>
+                        <div class="timer-sep">:</div>
+                        <div class="timer-unit"><span id="minutes">00</span><label>Мин</label></div>
+                        <div class="timer-sep">:</div>
+                        <div class="timer-unit"><span id="seconds">00</span><label>Сек</label></div>
+                    </div>
+                    <div class="unlock-date">Доступно с 1 января 2026, 00:01 МСК</div>
+                    <div class="seal-status">
+                        <div class="wax-seal">SECRET</div>
+                    </div>
+                </div>
+
+                <!-- 2. ОТКРЫТОЕ СОСТОЯНИЕ (Выбор персонажа) -->
+                <div id="capsuleUnlocked" class="capsule-content-unlocked hidden">
+                    
+                    <!-- Фаза 1: Сетка выбора -->
+                    <div id="recipientSelector" class="capsule-phase">
+                        <div class="confetti-burst">🎉</div>
+                        <h3>Капсула Открыта!</h3>
+                        <p class="capsule-subtitle">Выберите, чьё послание прочитать:</p>
+                        
+                        <div class="recipients-grid" id="recipientsGrid">
+                            <!-- Карточки генерируются JS -->
+                        </div>
+                    </div>
+
+                    <!-- Фаза 2: Чтение письма -->
+                    <div id="letterReader" class="capsule-phase hidden">
+                        <div class="reader-header">
+                            <button class="back-link" id="backToSelectorBtn">← Назад к выбору</button>
+                        </div>
+                        <div class="letter-paper-container">
+                            <div class="letter-paper" id="letterContent">
+                                <!-- Текст письма -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модалка -->
+    <div id="modalOverlay" class="modal-overlay hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-window">
+            <button class="close-modal">✕</button>
+            <div class="modal-content" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // Проверка авторизации перед загрузкой основного контента
+        (function() {
+            const authToken = localStorage.getItem('authToken');
+            const authTime = localStorage.getItem('authTime');
+            
+            if (!authToken || !authTime) {
+                window.location.replace('login.html');
+                return;
+            }
+            
+            const timeDiff = Date.now() - parseInt(authTime);
+            if (timeDiff >= 24 * 60 * 60 * 1000) {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('authTime');
+                window.location.replace('login.html');
+                return;
+            }
+            
+            // Устанавливаем cookie для серверной проверки
+            document.cookie = `authToken=${authToken}; path=/; max-age=86400; SameSite=Lax`;
+        })();
+    </script>
+    <script src="data.js"></script>
+    <script src="box.js"></script>
+    <script src="app.js"></script>
+
+    <!-- Модалка -->
+    <div id="modalOverlay" class="modal-overlay hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-window">
+            <button class="close-modal">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
