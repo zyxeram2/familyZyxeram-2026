@@ -81,6 +81,13 @@ const AppData = {
         'assets/etc/9.jpg',
         'assets/etc/10.jpg',
         'assets/etc/11.jpg',
+        'assets/etc/12.jpg',
+        'assets/etc/13.jpg',
+        'assets/etc/14.jpg',
+        'assets/etc/15.jpg',
+        'assets/etc/16.jpg',
+        'assets/etc/18.jpg',
+        'assets/etc/17.jpg',
         // 'assets/etc/6.jpg' // Добавляйте сколько хотите
     ],
 
@@ -420,3 +427,4 @@ fortunePool: {
     ]
 }
 };
+
