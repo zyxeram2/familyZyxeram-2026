@@ -427,4 +427,3 @@ fortunePool: {
     ]
 }
 };
-
